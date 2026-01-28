@@ -23,12 +23,13 @@ export default function ChatBot() {
 
   const fetchBotResponse = async (userMessage: string): Promise<string> => {
     const apiMessages = [
-      { role: 'system' as const, content: 'Chat history for context.' },
-      ...messages.map((m) => ({
-        role: (m.isUser ? 'user' : 'assistant') as const,
-        content: m.text,
-      })),
-      { role: 'user' as const, content: userMessage },
+              { role: 'system' as const, content: 'Chat history for context.' },
+        ...messages.map((m) => ({
+          role: (m.isUser ? 'user' : 'assistant') as 'user' | 'assistant',
+          content: m.text,
+        })),
+        { role: 'user' as const, content: userMessage },
+
     ]
 
     const res = await fetch('/api/chat', {
